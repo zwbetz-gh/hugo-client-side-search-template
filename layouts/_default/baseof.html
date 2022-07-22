@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    {{ hugo.Generator }}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ .Title }} | {{ site.Title }}</title>
+  </head>
+
+  <body>
+    <div class="container">
+      {{ block "main" . }}{{ end }}
+    </div>
+
+    {{ $js := resources.Get "js/index.js" | js.Build }}
+    {{ if not site.IsServer }}
+      {{ $js = $js | minify | fingerprint }}
+    {{ end }}
+    <script type="text/javascript" src="{{ $js.RelPermalink }}" defer></script>
+  </body>
+</html>

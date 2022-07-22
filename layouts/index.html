@@ -1,0 +1,15 @@
+{{ define "main" }}
+  <h1>{{ .Title }}</h1>
+  {{ .Content }}
+
+  <input type="text" id="client_side_search_input" disabled>
+
+  <div id="client_side_search_results">
+    {{ $pages := first 10 site.RegularPages.ByPublishDate.Reverse }}
+    {{ range $pages }}
+      <p>
+        <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+      </p>
+    {{ end }}
+  </div>
+{{ end }}

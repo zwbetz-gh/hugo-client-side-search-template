@@ -1,2 +1,3 @@
-# client-side-search-for-hugo
-Client-side Search for Hugo
+# Client-side Search for Hugo
+
+Under construction.
