@@ -1,32 +1,46 @@
 import Fuse from './fuse.js';
 
+interface Page {
+  title: string;
+  url: string;
+}
+
+interface Hit {
+  item: Page;
+  refIndex: number;
+}
+
 const LOGGING = true;
 const JSON_INDEX_URL = `${window.location.origin}/index.json`;
 const HITS_LIMIT = 10;
 
-let pages: [];
+let pages: Page[];
 let fuse: any;
 
-const logPerformance = (funcName, startTime, endTime) => {
+const logPerformance = (
+  funcName: string,
+  startTime: number,
+  endTime: number
+): void => {
   if (LOGGING) {
     const durationNum = (endTime - startTime).toFixed(2);
     console.log(`${funcName} took ${durationNum} ms`);
   }
 };
 
-const getInputEl = () => {
+const getInputEl = (): Element => {
   return document.querySelector('#client_side_search_input');
 };
 
-const getResultsEl = () => {
+const getResultsEl = (): Element => {
   return document.querySelector('#client_side_search_results');
 };
 
-const enableInputEl = () => {
+const enableInputEl = (): void => {
   getInputEl()['disabled'] = false;
 };
 
-const initFuse = () => {
+const initFuse = (): void => {
   const startTime = performance.now();
   const options = {
     keys: ['title']
@@ -35,7 +49,7 @@ const initFuse = () => {
   logPerformance('initFuse', startTime, performance.now());
 };
 
-const fetchJsonIndex = () => {
+const fetchJsonIndex = (): void => {
   const startTime = performance.now();
   fetch(JSON_INDEX_URL)
     .then(response => response.json())
@@ -50,27 +64,40 @@ const fetchJsonIndex = () => {
     });
 };
 
-const renderResultsHtml = (hits) => {
-  const htmls = hits.map(hit => {
-    return `\
+const renderResultsHtml = (hits: Hit[]): void => {
+  const html = hits
+    .map(hit => {
+      return `\
     <p>
       <a href="${hit.item.url}">${hit.item.title}</a>
     </p>`;
-  });
-  const html = htmls.join('\n');
+    })
+    .join('\n');
   getResultsEl().innerHTML = html;
 };
 
-const handleSearchEvent = () => {
+const getQuery = (): string => {
+  return getInputEl()['value'].trim();
+};
+
+const getHits = (query: string): Hit[] => {
+  return fuse.search(query);
+};
+
+const limitHits = (hits: Hit[]): Hit[] => {
+  return hits.splice(0, HITS_LIMIT);
+};
+
+const handleSearchEvent = (): void => {
   const startTime = performance.now();
-  const query = getInputEl()['value'].trim();
-  const hits = fuse.search(query);
-  const limitedHits = hits.splice(0, HITS_LIMIT);
+  const query = getQuery();
+  const hits = getHits(query);
+  const limitedHits = limitHits(hits);
   renderResultsHtml(limitedHits);
   logPerformance('handleSearchEvent', startTime, performance.now());
 };
 
-const main = () => {
+const main = (): void => {
   if (getInputEl()) {
     fetchJsonIndex();
     getInputEl().addEventListener('keyup', handleSearchEvent);
