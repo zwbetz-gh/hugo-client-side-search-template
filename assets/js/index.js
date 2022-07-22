@@ -1,16 +1,16 @@
 import Fuse from './fuse.js';
 
-LOGGING_BOOL = true;
-JSON_INDEX_URL_STR = `${window.location.origin}/index.json`;
-HITS_LIMIT_NUM = 10;
+LOGGING = true;
+JSON_INDEX_URL = `${window.location.origin}/index.json`;
+HITS_LIMIT = 10;
 
-let pagesArr;
+let pages;
 let fuse;
 
-const logPerformance = (funcStr, startTimeNum, endTimeNum) => {
-  if (LOGGING_BOOL) {
-    const durationNum = (endTimeNum - startTimeNum).toFixed(2);
-    console.log(`${funcStr} took ${durationNum} ms`);
+const logPerformance = (funcName, startTime, endTime) => {
+  if (LOGGING) {
+    const durationNum = (endTime - startTime).toFixed(2);
+    console.log(`${funcName} took ${durationNum} ms`);
   }
 };
 
@@ -27,47 +27,47 @@ const enableInputEl = () => {
 };
 
 const initFuse = () => {
-  const startTimeNum = performance.now();
+  const startTime = performance.now();
   const options = {
     keys: ['title']
   };
-  fuse = new Fuse(pagesArr, options);
-  logPerformance('initFuse', startTimeNum, performance.now());
+  fuse = new Fuse(pages, options);
+  logPerformance('initFuse', startTime, performance.now());
 };
 
 const fetchJsonIndex = () => {
-  const startTimeNum = performance.now();
-  fetch(JSON_INDEX_URL_STR)
+  const startTime = performance.now();
+  fetch(JSON_INDEX_URL)
     .then(response => response.json())
     .then(data => {
-      pagesArr = data;
+      pages = data;
       initFuse();
       enableInputEl();
-      logPerformance('fetchJsonIndex', startTimeNum, performance.now());
+      logPerformance('fetchJsonIndex', startTime, performance.now());
     })
     .catch(error => {
       console.error(`Failed to fetch JSON index: ${error.message}`);
     });
 };
 
-const renderResultsHtml = (limitedHitsArr) => {
-  const htmlArr = limitedHitsArr.map(hit => {
+const renderResultsHtml = (hits) => {
+  const htmls = hits.map(hit => {
     return `\
     <p>
       <a href="${hit.item.url}">${hit.item.title}</a>
     </p>`;
   });
-  const htmlStr = htmlArr.join('\n');
-  getResultsEl().innerHTML = htmlStr;
+  const html = htmls.join('\n');
+  getResultsEl().innerHTML = html;
 };
 
 const handleSearchEvent = () => {
-  const startTimeNum = performance.now();
-  const queryStr = getInputEl().value.trim();
-  const hitsArr = fuse.search(queryStr);
-  const limitedHitsArr = hitsArr.splice(0, HITS_LIMIT_NUM);
-  renderResultsHtml(limitedHitsArr);
-  logPerformance('handleSearchEvent', startTimeNum, performance.now());
+  const startTime = performance.now();
+  const query = getInputEl().value.trim();
+  const hits = fuse.search(query);
+  const limitedHits = hits.splice(0, HITS_LIMIT);
+  renderResultsHtml(limitedHits);
+  logPerformance('handleSearchEvent', startTime, performance.now());
 };
 
 const main = () => {
