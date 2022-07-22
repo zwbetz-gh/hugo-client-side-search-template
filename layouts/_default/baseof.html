@@ -12,7 +12,7 @@
       {{ block "main" . }}{{ end }}
     </div>
 
-    {{ $js := resources.Get "js/index.js" | js.Build }}
+    {{ $js := resources.Get "js/index.ts" | js.Build }}
     {{ if not site.IsServer }}
       {{ $js = $js | minify | fingerprint }}
     {{ end }}

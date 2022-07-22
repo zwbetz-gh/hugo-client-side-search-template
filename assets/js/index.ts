@@ -1,11 +1,11 @@
 import Fuse from './fuse.js';
 
-LOGGING = true;
-JSON_INDEX_URL = `${window.location.origin}/index.json`;
-HITS_LIMIT = 10;
+const LOGGING = true;
+const JSON_INDEX_URL = `${window.location.origin}/index.json`;
+const HITS_LIMIT = 10;
 
-let pages;
-let fuse;
+let pages: [];
+let fuse: any;
 
 const logPerformance = (funcName, startTime, endTime) => {
   if (LOGGING) {
@@ -23,7 +23,7 @@ const getResultsEl = () => {
 };
 
 const enableInputEl = () => {
-  getInputEl().disabled = false;
+  getInputEl()['disabled'] = false;
 };
 
 const initFuse = () => {
@@ -63,7 +63,7 @@ const renderResultsHtml = (hits) => {
 
 const handleSearchEvent = () => {
   const startTime = performance.now();
-  const query = getInputEl().value.trim();
+  const query = getInputEl()['value'].trim();
   const hits = fuse.search(query);
   const limitedHits = hits.splice(0, HITS_LIMIT);
   renderResultsHtml(limitedHits);
@@ -71,8 +71,10 @@ const handleSearchEvent = () => {
 };
 
 const main = () => {
-  fetchJsonIndex();
-  getInputEl().addEventListener('keyup', handleSearchEvent);
+  if (getInputEl()) {
+    fetchJsonIndex();
+    getInputEl().addEventListener('keyup', handleSearchEvent);
+  }
 };
 
 main();
