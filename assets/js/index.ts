@@ -11,6 +11,8 @@ interface Hit {
 }
 
 const LOGGING = true;
+const SEARCH_INPUT_SELECTOR = '#client_side_search_input';
+const SEARCH_RESULTS_SELECTOR = '#client_side_search_results';
 const JSON_INDEX_URL = `${window.location.origin}/index.json`;
 const HITS_LIMIT = 10;
 
@@ -28,16 +30,16 @@ const logPerformance = (
   }
 };
 
-const getInputEl = (): Element => {
-  return document.querySelector('#client_side_search_input');
+const getInputEl = (): HTMLInputElement => {
+  return document.querySelector(SEARCH_INPUT_SELECTOR);
 };
 
-const getResultsEl = (): Element => {
-  return document.querySelector('#client_side_search_results');
+const getResultsEl = (): HTMLElement => {
+  return document.querySelector(SEARCH_RESULTS_SELECTOR);
 };
 
 const enableInputEl = (): void => {
-  getInputEl()['disabled'] = false;
+  getInputEl().disabled = false;
 };
 
 const initFuse = (): void => {
@@ -77,7 +79,7 @@ const renderResultsHtml = (hits: Hit[]): void => {
 };
 
 const getQuery = (): string => {
-  return getInputEl()['value'].trim();
+  return getInputEl().value.trim();
 };
 
 const getHits = (query: string): Hit[] => {
