@@ -12,9 +12,9 @@ interface Hit {
 
 const LOGGING = true;
 const SEARCH_INPUT_SELECTOR = '#client_side_search_input';
+const SEARCH_RESULTS_COUNT_SELECTOR = '#client_side_search_results_count';
 const SEARCH_RESULTS_SELECTOR = '#client_side_search_results';
 const JSON_INDEX_URL = `${window.location.origin}/index.json`;
-const HITS_LIMIT = 10;
 
 let pages: Page[];
 let fuse: any;
@@ -34,8 +34,16 @@ const getInputEl = (): HTMLInputElement => {
   return document.querySelector(SEARCH_INPUT_SELECTOR);
 };
 
-const getResultsEl = (): HTMLElement => {
+const getCountEl = (): HTMLSpanElement => {
+  return document.querySelector(SEARCH_RESULTS_COUNT_SELECTOR);
+};
+
+const getResultsEl = (): HTMLDivElement => {
   return document.querySelector(SEARCH_RESULTS_SELECTOR);
+};
+
+const setHitCount = (count: number): void => {
+  getCountEl().innerHTML = `<strong>${count}</strong>`;
 };
 
 const enableInputEl = (): void => {
@@ -86,16 +94,12 @@ const getHits = (query: string): Hit[] => {
   return fuse.search(query);
 };
 
-const limitHits = (hits: Hit[]): Hit[] => {
-  return hits.splice(0, HITS_LIMIT);
-};
-
 const handleSearchEvent = (): void => {
   const startTime = performance.now();
   const query = getQuery();
   const hits = getHits(query);
-  const limitedHits = limitHits(hits);
-  renderResultsHtml(limitedHits);
+  setHitCount(hits.length);
+  renderResultsHtml(hits);
   logPerformance('handleSearchEvent', startTime, performance.now());
 };
 
