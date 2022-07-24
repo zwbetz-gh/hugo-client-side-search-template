@@ -12,14 +12,6 @@ const getInputEl = (): HTMLInputElement => {
   return document.querySelector('#search_input');
 };
 
-const setLoading = (loading: boolean): void => {
-  if (loading) {
-    getInputEl().placeholder = 'Loading...';
-  } else {
-    getInputEl().placeholder = 'Search by title';
-  }
-};
-
 const enableInputEl = (): void => {
   getInputEl().disabled = false;
 };
@@ -50,7 +42,6 @@ const setUrlParam = (query: string): void => {
 
 const fetchJsonIndex = (): void => {
   const startTime = performance.now();
-  setLoading(true);
   fetch(JSON_INDEX_URL)
     .then(response => {
       stats.setJsonIndexContentEncoding(response);
@@ -61,7 +52,6 @@ const fetchJsonIndex = (): void => {
       pages = data;
       initFusejs();
       enableInputEl();
-      setLoading(false);
       doSearchIfUrlParamExists();
       stats.setJsonIndexFetchTime(startTime, performance.now());
       stats.setJsonIndexArrayLength(pages.length);
