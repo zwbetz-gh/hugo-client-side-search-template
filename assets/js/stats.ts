@@ -6,9 +6,15 @@ const getDurationFormattedAsMs = (
   return `${duration} ms`;
 };
 
-const setJsonIndexResourceSize = (response: Response): void => {
-  const el = document.querySelector('#json_index_resource_size');
-  const bytes = response.headers.get('Content-Length');
+const setJsonIndexContentEncoding = (response: Response): void => {
+  const el = document.querySelector('#json_index_content_encoding');
+  const encoding = response.headers.get('content-encoding');
+  el.textContent = encoding;
+};
+
+const setJsonIndexContentSize = (response: Response): void => {
+  const el = document.querySelector('#json_index_content_size');
+  const bytes = response.headers.get('content-length');
   const kbs = (Number(bytes) / 1000).toFixed(1);
   el.textContent = `${kbs} kB`;
 };
@@ -47,7 +53,8 @@ const setQuery = (query: string): void => {
 };
 
 export default {
-  setJsonIndexResourceSize,
+  setJsonIndexContentEncoding,
+  setJsonIndexContentSize,
   setJsonIndexFetchTime,
   setJsonIndexArrayLength,
   setFusejsInstantiationTime,

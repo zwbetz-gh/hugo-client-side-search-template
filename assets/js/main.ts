@@ -53,7 +53,8 @@ const fetchJsonIndex = (): void => {
   setLoading(true);
   fetch(JSON_INDEX_URL)
     .then(response => {
-      stats.setJsonIndexResourceSize(response);
+      stats.setJsonIndexContentEncoding(response);
+      stats.setJsonIndexContentSize(response);
       return response.json();
     })
     .then(data => {
