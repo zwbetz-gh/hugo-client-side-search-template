@@ -2,6 +2,9 @@ import Fuse from './fuse.js';
 import stats from './stats';
 import {Hit, Page} from './types.js';
 
+const JSON_INDEX_URL = `${window.location.origin}/index.json`;
+const QUERY_URL_PARAM = 'query';
+
 let pages: Page[];
 let fuse: any;
 
@@ -21,7 +24,7 @@ const enableInputEl = (): void => {
   getInputEl().disabled = false;
 };
 
-const initFuse = (): void => {
+const initFusejs = (): void => {
   const startTime = performance.now();
   const options = {
     keys: ['title']
@@ -30,19 +33,35 @@ const initFuse = (): void => {
   stats.setFusejsInstantiationTime(startTime, performance.now());
 };
 
+const doSearchIfUrlParamExists = (): void => {
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.has(QUERY_URL_PARAM)) {
+    const query = decodeURIComponent(urlParams.get(QUERY_URL_PARAM));
+    getInputEl().value = query;
+    handleSearchEvent();
+  }
+};
+
+const setUrlParam = (query: string): void => {
+  const urlParams = new URLSearchParams(window.location.search);
+  urlParams.set(QUERY_URL_PARAM, encodeURIComponent(query));
+  window.history.replaceState({}, '', `${location.pathname}?${urlParams}`);
+};
+
 const fetchJsonIndex = (): void => {
   const startTime = performance.now();
   setLoading(true);
-  fetch(`${window.location.origin}/index.json`)
+  fetch(JSON_INDEX_URL)
     .then(response => {
       stats.setJsonIndexResourceSize(response);
       return response.json();
     })
     .then(data => {
       pages = data;
-      initFuse();
+      initFusejs();
       enableInputEl();
       setLoading(false);
+      doSearchIfUrlParamExists();
       stats.setJsonIndexFetchTime(startTime, performance.now());
       stats.setJsonIndexArrayLength(pages.length);
     })
@@ -51,20 +70,22 @@ const fetchJsonIndex = (): void => {
     });
 };
 
+const createHtmlForHit = (hit: Hit): string => {
+  return `\
+  <p>
+    <a href="${hit.item.url}">${hit.item.title}</a>
+  </p>`;
+};
+
 const renderResultsHtml = (hits: Hit[]): void => {
-  const html = hits
-    .map(hit => {
-      return `\
-    <p>
-      <a href="${hit.item.url}">${hit.item.title}</a>
-    </p>`;
-    })
-    .join('\n');
+  const html = hits.map(createHtmlForHit).join('\n');
   document.querySelector('#search_results_container').innerHTML = html;
 };
 
 const getQuery = (): string => {
-  return getInputEl().value.trim();
+  const query = getInputEl().value.trim();
+  stats.setQuery(query);
+  return query;
 };
 
 const getHits = (query: string): Hit[] => {
@@ -75,16 +96,15 @@ const handleSearchEvent = (): void => {
   const startTime = performance.now();
   const query = getQuery();
   const hits = getHits(query);
+  setUrlParam(query);
   renderResultsHtml(hits);
   stats.setHitCount(hits.length);
   stats.setSearchEventTime(startTime, performance.now());
 };
 
 const handleDOMContentLoaded = (): void => {
-  if (getInputEl()) {
-    fetchJsonIndex();
-    getInputEl().addEventListener('keyup', handleSearchEvent);
-  }
+  fetchJsonIndex();
+  getInputEl().addEventListener('keyup', handleSearchEvent);
 };
 
 const main = (): void => {

@@ -41,11 +41,17 @@ const setHitCount = (length: number): void => {
   el.textContent = String(length);
 };
 
+const setQuery = (query: string): void => {
+  const el = document.querySelector('#query');
+  el.textContent = query;
+};
+
 export default {
   setJsonIndexResourceSize,
   setJsonIndexFetchTime,
   setJsonIndexArrayLength,
   setFusejsInstantiationTime,
   setSearchEventTime,
-  setHitCount
+  setHitCount,
+  setQuery
 };
