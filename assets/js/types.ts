@@ -1,13 +1,11 @@
 export interface Page {
-  title: string;
-  latin_name: string;
-  family_name: string;
-  plant_type: string;
-  bloom_time: string;
-  flower_color: string;
-  size_at_maturity: string;
-  water_needs: string;
-  additional_characteristices_notes: string;
+  title: string; // == eva_number
+  country: string;
+  crew: string;
+  vehicle: string;
+  param_date: string;
+  duration: string;
+  purpose: string;
   url: string;
 }
 

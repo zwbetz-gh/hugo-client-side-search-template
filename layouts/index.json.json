@@ -3,14 +3,12 @@
 {{- range site.RegularPages.ByPublishDate.Reverse -}}
   {{- $item := dict
   "title" .Title
-  "latin_name" .Params.latin_name
-  "family_name" .Params.family_name
-  "plant_type" .Params.plant_type
-  "bloom_time" .Params.bloom_time
-  "flower_color" .Params.flower_color
-  "size_at_maturity" .Params.size_at_maturity
-  "water_needs" .Params.water_needs
-  "additional_characteristices_notes" .Params.additional_characteristices_notes
+  "country" .Params.country
+  "crew" .Params.crew
+  "vehicle" .Params.vehicle
+  "param_date" .Params.param_date
+  "duration" .Params.duration
+  "purpose" .Params.purpose
   "url" .RelPermalink -}}
 
   {{- $list = $list | append $item -}}

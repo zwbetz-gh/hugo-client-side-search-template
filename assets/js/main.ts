@@ -7,9 +7,11 @@ const QUERY_URL_PARAM = 'query';
 const MAX_HITS_SHOWN = 10;
 const FUSE_OPTIONS = {
   keys: [
-    'title', // == common_name
-    'latin_name',
-    'additional_characteristices_notes'
+    'title', // == eva_number
+    'country',
+    'crew',
+    'vehicle',
+    'purpose'
   ]
 };
 
@@ -47,7 +49,8 @@ const setUrlParam = (query: string): void => {
 const fetchJsonIndex = (): void => {
   const startTime = performance.now();
   fetch(JSON_INDEX_URL, {
-    // Only for demo purposes: download a resource with cache busting, to bypass the cache completely.
+    // NOTE: 'no-store' is only used for demo purposes.
+    // For real usage, you probably want 'default'
     cache: 'no-store'
   })
     .then(response => {
@@ -82,7 +85,7 @@ const createHtmlForHit = (hit: Hit): string => {
 
   return `\
   <p>
-    <strong>title:</strong> <a href="${hit.item.url}">${hit.item.title}</a><br>
+    <strong>eva_number:</strong> <a href="${hit.item.url}">${hit.item.title}</a><br>
     ${details}
   </p>`;
 };
@@ -96,7 +99,6 @@ const renderResultsHtml = (hits: Hit[]): void => {
 
 const getQuery = (): string => {
   const query = getInputEl().value.trim();
-  stats.setQuery(query);
   return query;
 };
 

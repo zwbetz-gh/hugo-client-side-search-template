@@ -1,6 +1,6 @@
 baseURL: http://example.org
 languageCode: en-us
-title: Client-side Search for Hugo
+title: Hugo client-side search template
 
 outputs:
   home:
