@@ -11,3 +11,6 @@ outputs:
 disableKinds:
   - taxonomy
   - term
+
+params:
+  repo: https://github.com/zwbetz-gh/client-side-search-for-hugo
