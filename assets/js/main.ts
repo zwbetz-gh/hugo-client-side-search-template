@@ -23,10 +23,10 @@ const FUSE_OPTIONS = {
 
 let fuse: any;
 
-/**
- * TEMPLATE_TODO: Optional. If your HTML input element has a different selector, change it.
- */
 const getInputEl = (): HTMLInputElement => {
+  /**
+   * TEMPLATE_TODO: Optional. If your HTML input element has a different selector, change it.
+   */
   return document.querySelector('#search_input');
 };
 
@@ -98,12 +98,12 @@ const createHitHtml = (hit: Hit): string => {
   </p>`;
 };
 
-/**
- * TEMPLATE_TODO: Optional. If your HTML results container element has a different selector, change it.
- */
 const renderHits = (hits: Hit[]): void => {
-  const limitiedHits = hits.slice(0, MAX_HITS_SHOWN);
-  const html = limitiedHits.map(createHitHtml).join('\n');
+  const limitedHits = hits.slice(0, MAX_HITS_SHOWN);
+  const html = limitedHits.map(createHitHtml).join('\n');
+  /**
+   * TEMPLATE_TODO: Optional. If your HTML results container element has a different selector, change it.
+   */
   document.querySelector('#search_results_container').innerHTML = html;
 };
 
