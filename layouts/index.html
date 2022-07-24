@@ -7,6 +7,8 @@
 
   <h2>Stats</h2>
 
+  <p>On the DOMContentLoaded event, the JSON index is fetched, and Fuse.js is instantiated.</p>
+
   <table class="table table-bordered table-success">
     <thead>
       <tr>
@@ -35,6 +37,19 @@
         <th scope="row">Fuse.js instantiation time</th>
         <td id="fusejs_instantiation_time"></td>
       </tr>
+    </tbody>
+  </table>
+
+  <p>On every keyup event, Fuse.js is queried, and the search results are rendered.</p>
+
+  <table class="table table-bordered table-success">
+    <thead>
+      <tr>
+        <th scope="col">Thing</th>
+        <th scope="col">Value</th>
+      </tr>
+    </thead>
+    <tbody>
       <tr>
         <th scope="row">Search event time</th>
         <td id="search_event_time"></td>
