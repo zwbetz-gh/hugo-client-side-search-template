@@ -40,9 +40,15 @@ const setUrlParam = (query: string): void => {
   window.history.replaceState({}, '', `${location.pathname}?${urlParams}`);
 };
 
+/**
+ * NOTE: The cache config is only set for demo purposes. For real usage, usually default is what you want.
+ * See https://developer.mozilla.org/en-US/docs/Web/API/Request/cache
+ */
 const fetchJsonIndex = (): void => {
   const startTime = performance.now();
-  fetch(JSON_INDEX_URL)
+  fetch(JSON_INDEX_URL, {
+    cache: 'no-store'
+  })
     .then(response => {
       stats.setJsonIndexContentEncoding(response);
       stats.setJsonIndexContentSize(response);
