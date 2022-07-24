@@ -42,7 +42,10 @@ const setUrlParam = (query: string): void => {
 
 const fetchJsonIndex = (): void => {
   const startTime = performance.now();
-  fetch(JSON_INDEX_URL)
+  fetch(JSON_INDEX_URL, {
+    // Only for demo purposes: download a resource with cache busting, to bypass the cache completely.
+    cache: 'no-store'
+  })
     .then(response => {
       stats.setJsonIndexContentEncoding(response);
       stats.setJsonIndexContentSize(response);
