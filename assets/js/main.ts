@@ -57,12 +57,7 @@ const setUrlParam = (query: string): void => {
 
 const fetchJsonIndex = (): void => {
   const startTime = performance.now();
-  fetch(JSON_INDEX_URL, {
-    /**
-     * TEMPLATE_TODO: Required. The 'no-store' is only used for demo purposes. Change it back to 'default'.
-     */
-    cache: 'no-store'
-  })
+  fetch(JSON_INDEX_URL)
     .then(response => {
       stats.setJsonIndexContentEncoding(response);
       stats.setJsonIndexContentSize(response);
