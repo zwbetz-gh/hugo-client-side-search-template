@@ -3,7 +3,14 @@
 {{- range site.RegularPages.ByPublishDate.Reverse -}}
   {{- $item := dict
   "title" .Title
-  "author" .Params.author
+  "latin_name" .Params.latin_name
+  "family_name" .Params.family_name
+  "plant_type" .Params.plant_type
+  "bloom_time" .Params.bloom_time
+  "flower_color" .Params.flower_color
+  "size_at_maturity" .Params.size_at_maturity
+  "water_needs" .Params.water_needs
+  "additional_characteristices_notes" .Params.additional_characteristices_notes
   "url" .RelPermalink -}}
 
   {{- $list = $list | append $item -}}

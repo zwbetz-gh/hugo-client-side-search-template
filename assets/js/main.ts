@@ -4,8 +4,15 @@ import {Hit, Page} from './types.js';
 
 const JSON_INDEX_URL = `${window.location.origin}/index.json`;
 const QUERY_URL_PARAM = 'query';
+const MAX_HITS_SHOWN = 10;
+const FUSE_OPTIONS = {
+  keys: [
+    'title', // == common_name
+    'latin_name',
+    'additional_characteristices_notes'
+  ]
+};
 
-let pages: Page[];
 let fuse: any;
 
 const getInputEl = (): HTMLInputElement => {
@@ -16,12 +23,9 @@ const enableInputEl = (): void => {
   getInputEl().disabled = false;
 };
 
-const initFusejs = (): void => {
+const initFuse = (pages: Page[]): void => {
   const startTime = performance.now();
-  const options = {
-    keys: ['title', 'author']
-  };
-  fuse = new Fuse(pages, options);
+  fuse = new Fuse(pages, FUSE_OPTIONS);
   stats.setFusejsInstantiationTime(startTime, performance.now());
 };
 
@@ -52,8 +56,8 @@ const fetchJsonIndex = (): void => {
       return response.json();
     })
     .then(data => {
-      pages = data;
-      initFusejs();
+      const pages: Page[] = data;
+      initFuse(pages);
       enableInputEl();
       doSearchIfUrlParamExists();
       stats.setJsonIndexFetchTime(startTime, performance.now());
@@ -65,14 +69,28 @@ const fetchJsonIndex = (): void => {
 };
 
 const createHtmlForHit = (hit: Hit): string => {
+  const details = Object.keys(hit.item)
+    .filter(key => {
+      return key !== 'title' && key !== 'url';
+    })
+    .map(key => {
+      return `\
+    <strong>${key}:</strong> ${hit.item[key]}<br>
+    `;
+    })
+    .join('\n');
+
   return `\
   <p>
-    <a href="${hit.item.url}">${hit.item.title}</a>
+    <strong>title:</strong> <a href="${hit.item.url}">${hit.item.title}</a><br>
+    ${details}
   </p>`;
 };
 
 const renderResultsHtml = (hits: Hit[]): void => {
-  const html = hits.map(createHtmlForHit).join('\n');
+  const limitiedHits = hits.slice(0, MAX_HITS_SHOWN);
+
+  const html = limitiedHits.map(createHtmlForHit).join('\n');
   document.querySelector('#search_results_container').innerHTML = html;
 };
 
@@ -97,8 +115,10 @@ const handleSearchEvent = (): void => {
 };
 
 const handleDOMContentLoaded = (): void => {
-  fetchJsonIndex();
-  getInputEl().addEventListener('keyup', handleSearchEvent);
+  if (getInputEl()) {
+    fetchJsonIndex();
+    getInputEl().addEventListener('keyup', handleSearchEvent);
+  }
 };
 
 const main = (): void => {
