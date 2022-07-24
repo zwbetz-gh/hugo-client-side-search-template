@@ -19,7 +19,7 @@ purpose: ${JSON.stringify(item.purpose)}
 };
 
 const mapData = parsed => {
-  const items = parsed.data.map(row => {
+  let items = parsed.data.map(row => {
     return {
       eva_number: row[0],
       country: row[1],
@@ -34,7 +34,14 @@ const mapData = parsed => {
   // Remove the header row
   items.shift();
 
-  return uniq(items);
+  // Cleanup
+  items = items.filter(item => {
+    return !!item.title 
+  })
+
+  items = uniq(items);
+
+  return items; 
 };
 
 const writeContent = items => {
@@ -54,7 +61,7 @@ const writeContent = items => {
 };
 
 const main = () => {
-  const csv = fs.readFileSync('./extra_vehicular_activity.csv', {
+  const csv = fs.readFileSync('./data/extra_vehicular_activity.csv', {
     encoding: 'utf-8'
   });
 
