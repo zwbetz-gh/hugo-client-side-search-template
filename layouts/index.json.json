@@ -1,11 +1,12 @@
 {{- $list := slice -}}
 
 {{- range site.RegularPages.ByPublishDate.Reverse -}}
-	{{- $item := dict
-    "title" .Title
-    "url" .RelPermalink -}}
+  {{- $item := dict
+  "title" .Title
+  "author" .Params.author
+  "url" .RelPermalink -}}
 
-	{{- $list = $list | append $item -}}
+  {{- $list = $list | append $item -}}
 {{- end -}}
 
 {{- $list | jsonify -}}

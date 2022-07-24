@@ -1,0 +1,12 @@
+---
+title: "Geisha of Gion"
+date: 2022-07-24T00:00:00-05:00
+draft: false
+author: "Mineko Iwasaki/Rande Brown"
+---
+
+SUMMARY
+
+<!--more-->
+
+CONTENT

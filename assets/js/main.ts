@@ -19,7 +19,7 @@ const enableInputEl = (): void => {
 const initFusejs = (): void => {
   const startTime = performance.now();
   const options = {
-    keys: ['title']
+    keys: ['title', 'author']
   };
   fuse = new Fuse(pages, options);
   stats.setFusejsInstantiationTime(startTime, performance.now());
