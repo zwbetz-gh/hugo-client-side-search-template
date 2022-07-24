@@ -1,9 +1,42 @@
 {{ define "main" }}
   <h1>{{ .Title }}</h1>
-  <input type="text" id="client_side_search_input" disabled>
-  <p>
-    Hits: <span id="client_side_search_results_count"><strong>0</strong></span>
-  </p>
-  <hr>
-  <div id="client_side_search_results"></div>
+
+  <table class="table table-secondary">
+    <thead>
+      <tr>
+        <th scope="col">Thing</th>
+        <th scope="col">Value</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row">JSON index fetch time</th>
+        <td>TODO</td>
+      </tr>
+      <tr>
+        <th scope="row">JSON index resource size</th>
+        <td>TODO</td>
+      </tr>
+      <tr>
+        <th scope="row">JSON index array length</th>
+        <td>TODO</td>
+      </tr>
+      <tr>
+        <th scope="row">Fuse.js instantiation time</th>
+        <td>TODO</td>
+      </tr>
+      <tr>
+        <th scope="row">Search event time</th>
+        <td>TODO</td>
+      </tr>
+      <tr>
+        <th scope="row">Hits</th>
+        <td>TODO</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <input type="text" id="search_input" class="form-control" disabled>
+
+  <div id="search_results_container"></div>
 {{ end }}

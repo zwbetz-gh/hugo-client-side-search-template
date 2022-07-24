@@ -11,9 +11,9 @@ interface Hit {
 }
 
 const LOGGING = true;
-const SEARCH_INPUT_SELECTOR = '#client_side_search_input';
-const SEARCH_RESULTS_COUNT_SELECTOR = '#client_side_search_results_count';
-const SEARCH_RESULTS_SELECTOR = '#client_side_search_results';
+const SEARCH_INPUT_SELECTOR = '#search_input';
+const SEARCH_RESULTS_COUNT_SELECTOR = '#search_results_count';
+const SEARCH_RESULTS_SELECTOR = '#search_results_container';
 const JSON_INDEX_URL = `${window.location.origin}/index.json`;
 
 let pages: Page[];
