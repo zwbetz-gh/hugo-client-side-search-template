@@ -6,7 +6,7 @@ A lightweight, fuzzy, client-side search template for Hugo.
 
 ## Demo
 
-<https://github.com/zwbetz-gh/hugo-client-side-search-template>
+<https://hugo-client-side-search-template.netlify.app/>
 
 ## Dependencies
 
