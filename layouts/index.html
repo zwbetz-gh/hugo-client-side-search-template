@@ -40,7 +40,7 @@
     </tbody>
   </table>
 
-  <p>On every keyup event, Fuse.js is queried, and the search results are rendered.</p>
+  <p>On every keyup event, Fuse.js is queried, and the hits are rendered.</p>
 
   <table class="table table-bordered table-success">
     <thead>
@@ -63,9 +63,5 @@
 
   <h2>Search</h2>
 
-  <div class="mb-3">
-    <input type="text" id="search_input" class="form-control" placeholder="Search Extra-Vehicular Activity (EVA) done by astronauts or cosmonauts" disabled>
-  </div>
-
-  <div id="search_results_container"></div>
+  {{ partial "search.html" . }}
 {{ end }}

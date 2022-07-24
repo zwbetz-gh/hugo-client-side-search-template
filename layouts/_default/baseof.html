@@ -1,10 +1,8 @@
 {{ $bootstrapCss := resources.Get "css/bootstrap.css" }}
 {{ $mainCss := resources.Get "css/main.css" }}
 {{ $bundledCss := slice $bootstrapCss $mainCss | resources.Concat "css/bundled.css" }}
-{{ $bundledJs := resources.Get "js/main.ts" | js.Build "js/bundled.js" }}
 
 {{ if not site.IsServer }}
-  {{ $bundledJs = $bundledJs | minify | fingerprint }}
   {{ $bundledCss = $bundledCss | minify | fingerprint }}
 {{ end }}
 
@@ -26,6 +24,6 @@
       {{ block "main" . }}{{ end }}
     </div>
 
-    <script type="text/javascript" src="{{ $bundledJs.RelPermalink }}" integrity="{{ $bundledJs.Data.Integrity }}"></script>
+    {{ partial "scripts.html" . }}
   </body>
 </html>

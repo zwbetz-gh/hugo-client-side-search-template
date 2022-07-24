@@ -36,12 +36,12 @@ const mapData = parsed => {
 
   // Cleanup
   items = items.filter(item => {
-    return !!item.title 
-  })
+    return !!item.title;
+  });
 
   items = uniq(items);
 
-  return items; 
+  return items;
 };
 
 const writeContent = items => {

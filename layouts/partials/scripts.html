@@ -1,0 +1,11 @@
+{{ $bundledJs := resources.Get "js/main.ts" | js.Build "js/bundled.js" }}
+
+{{ if not site.IsServer }}
+  {{ $bundledJs = $bundledJs | minify | fingerprint }}
+{{ end }}
+
+<script
+  type="text/javascript"
+  src="{{ $bundledJs.RelPermalink }}"
+  integrity="{{ $bundledJs.Data.Integrity }}"
+></script>

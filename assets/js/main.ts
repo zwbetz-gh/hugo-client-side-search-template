@@ -1,22 +1,31 @@
-import Fuse from './fuse.js';
+/**
+ * TEMPLATE_TODO: Required. Remove this import and all usages of stats.
+ */
 import stats from './stats';
+
+import Fuse from './fuse.js';
 import {Hit, Page} from './types.js';
 
 const JSON_INDEX_URL = `${window.location.origin}/index.json`;
 const QUERY_URL_PARAM = 'query';
+
+/**
+ * TEMPLATE_TODO: Optioal. Change how many hits are shown.
+ */
 const MAX_HITS_SHOWN = 10;
+
+/**
+ * TEMPLATE_TODO: Required. Tell Fuse.js which keys to search on.
+ */
 const FUSE_OPTIONS = {
-  keys: [
-    'title', // == eva_number
-    'country',
-    'crew',
-    'vehicle',
-    'purpose'
-  ]
+  keys: ['title', 'country', 'crew', 'vehicle', 'purpose']
 };
 
 let fuse: any;
 
+/**
+ * TEMPLATE_TODO: Optional. If your HTML input element has a different selector, change it.
+ */
 const getInputEl = (): HTMLInputElement => {
   return document.querySelector('#search_input');
 };
@@ -49,8 +58,9 @@ const setUrlParam = (query: string): void => {
 const fetchJsonIndex = (): void => {
   const startTime = performance.now();
   fetch(JSON_INDEX_URL, {
-    // NOTE: 'no-store' is only used for demo purposes.
-    // For real usage, you probably want 'default'
+    /**
+     * TEMPLATE_TODO: Required. The 'no-store' is only used for demo purposes. Change it back to 'default'.
+     */
     cache: 'no-store'
   })
     .then(response => {
@@ -71,7 +81,10 @@ const fetchJsonIndex = (): void => {
     });
 };
 
-const createHtmlForHit = (hit: Hit): string => {
+/**
+ * TEMPLATE_TODO: Required. Change how your HTML is created.
+ */
+const createHitHtml = (hit: Hit): string => {
   const details = Object.keys(hit.item)
     .filter(key => {
       return key !== 'title' && key !== 'url';
@@ -90,10 +103,12 @@ const createHtmlForHit = (hit: Hit): string => {
   </p>`;
 };
 
-const renderResultsHtml = (hits: Hit[]): void => {
+/**
+ * TEMPLATE_TODO: Optional. If your HTML results container element has a different selector, change it.
+ */
+const renderHits = (hits: Hit[]): void => {
   const limitiedHits = hits.slice(0, MAX_HITS_SHOWN);
-
-  const html = limitiedHits.map(createHtmlForHit).join('\n');
+  const html = limitiedHits.map(createHitHtml).join('\n');
   document.querySelector('#search_results_container').innerHTML = html;
 };
 
@@ -111,7 +126,7 @@ const handleSearchEvent = (): void => {
   const query = getQuery();
   const hits = getHits(query);
   setUrlParam(query);
-  renderResultsHtml(hits);
+  renderHits(hits);
   stats.setHitCount(hits.length);
   stats.setSearchEventTime(startTime, performance.now());
 };
