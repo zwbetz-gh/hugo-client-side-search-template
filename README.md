@@ -8,7 +8,7 @@ A lightweight, fuzzy, client-side search template for Hugo.
 
 ## Dependencies
 
-Just one, [Fuse.js](https://fusejs.io/), which gives us fuzzy matching, among other cool things.
+Just one, [Fuse.js](https://fusejs.io/), which allows fuzzy matching, among other cool things.
 
 ## How it Works
 
@@ -21,7 +21,7 @@ At a high-level:
 1. Fuse.js is instantiated with the JSON index
 1. You do a search which fires the keyup event
 1. Fuse.js is queried for hits
-1. The DOM is updated with hits
+1. The DOM is updated with hits (with HTML that you craft)
 
 ## Relevant Files
 
@@ -47,7 +47,7 @@ Just make sure the HTML elements in this partial are present.
 
 I chose to keep the minified Fuse.js library in the repo.
 
-You could also do it via `<script>` element, or `npm`. See the [installation docs](https://fusejs.io/getting-started/installation.html).
+You could also do it via `<script>` element, or `npm`. See the [Fuse.js installation docs](https://fusejs.io/getting-started/installation.html).
 
 ### assets/js/types.ts
 
@@ -59,4 +59,4 @@ Look for occurrences of `TEMPLATE_TODO` then follow the directions.
 
 ## Credit
 
-- Sample EVA data provided by <https://catalog.data.gov/dataset/extra-vehicular-activity-eva-us-and-russia>
+Sample EVA data provided by <https://catalog.data.gov/dataset/extra-vehicular-activity-eva-us-and-russia>.
