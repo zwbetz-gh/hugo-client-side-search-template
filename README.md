@@ -1,5 +1,7 @@
 # Hugo client-side search template
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/bb28781b-4732-4e74-b3de-c5f27ac37d14/deploy-status)](https://app.netlify.com/sites/hugo-client-side-search-template/deploys)
+
 A lightweight, fuzzy, client-side search template for Hugo.
 
 ## Demo
