@@ -16,6 +16,6 @@
     {{ if not site.IsServer }}
       {{ $js = $js | minify | fingerprint }}
     {{ end }}
-    <script type="text/javascript" src="{{ $js.RelPermalink }}" defer></script>
+    <script type="text/javascript" src="{{ $js.RelPermalink }}"></script>
   </body>
 </html>

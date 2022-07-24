@@ -42,6 +42,14 @@ const getResultsEl = (): HTMLDivElement => {
   return document.querySelector(SEARCH_RESULTS_SELECTOR);
 };
 
+const setLoading = (loading: boolean): void => {
+  if (loading) {
+    getInputEl().placeholder = 'Loading...';
+  } else {
+    getInputEl().placeholder = 'Search by title';
+  }
+};
+
 const setHitCount = (count: number): void => {
   getCountEl().innerHTML = `<strong>${count}</strong>`;
 };
@@ -61,12 +69,14 @@ const initFuse = (): void => {
 
 const fetchJsonIndex = (): void => {
   const startTime = performance.now();
+  setLoading(true);
   fetch(JSON_INDEX_URL)
     .then(response => response.json())
     .then(data => {
       pages = data;
       initFuse();
       enableInputEl();
+      setLoading(false);
       logPerformance('fetchJsonIndex', startTime, performance.now());
     })
     .catch(error => {
@@ -103,11 +113,15 @@ const handleSearchEvent = (): void => {
   logPerformance('handleSearchEvent', startTime, performance.now());
 };
 
-const main = (): void => {
+const handleDOMContentLoaded = (): void => {
   if (getInputEl()) {
     fetchJsonIndex();
     getInputEl().addEventListener('keyup', handleSearchEvent);
   }
+};
+
+const main = (): void => {
+  document.addEventListener('DOMContentLoaded', handleDOMContentLoaded);
 };
 
 main();
