@@ -13,4 +13,4 @@ disableKinds:
   - term
 
 params:
-  repo: https://github.com/zwbetz-gh/client-side-search-for-hugo
+  repo: https://github.com/zwbetz-gh/hugo-client-side-search-template

@@ -1,3 +1,3 @@
-# Client-side Search for Hugo
+# Hugo client-side search template
 
 Under construction.
