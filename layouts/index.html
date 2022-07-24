@@ -11,32 +11,34 @@
     <tbody>
       <tr>
         <th scope="row">JSON index fetch time</th>
-        <td>TODO</td>
+        <td id="json_index_fetch_time"></td>
       </tr>
       <tr>
         <th scope="row">JSON index resource size</th>
-        <td>TODO</td>
+        <td id="json_index_resource_size"></td>
       </tr>
       <tr>
         <th scope="row">JSON index array length</th>
-        <td>TODO</td>
+        <td id="json_index_array_length"></td>
       </tr>
       <tr>
         <th scope="row">Fuse.js instantiation time</th>
-        <td>TODO</td>
+        <td id="fusejs_instantiation_time"></td>
       </tr>
       <tr>
         <th scope="row">Search event time</th>
-        <td>TODO</td>
+        <td id="search_event_time"></td>
       </tr>
       <tr>
-        <th scope="row">Hits</th>
-        <td>TODO</td>
+        <th scope="row">Hit count</th>
+        <td id="hit_count"></td>
       </tr>
     </tbody>
   </table>
 
-  <input type="text" id="search_input" class="form-control" disabled>
+  <div class="mb-3">
+    <input type="text" id="search_input" class="form-control" disabled>
+  </div>
 
   <div id="search_results_container"></div>
 {{ end }}

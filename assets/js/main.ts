@@ -10,36 +10,19 @@ interface Hit {
   refIndex: number;
 }
 
-const LOGGING = true;
-const SEARCH_INPUT_SELECTOR = '#search_input';
-const SEARCH_RESULTS_COUNT_SELECTOR = '#search_results_count';
-const SEARCH_RESULTS_SELECTOR = '#search_results_container';
-const JSON_INDEX_URL = `${window.location.origin}/index.json`;
-
 let pages: Page[];
 let fuse: any;
 
-const logPerformance = (
-  funcName: string,
+const getDurationFormattedAsMs = (
   startTime: number,
   endTime: number
-): void => {
-  if (LOGGING) {
-    const durationNum = (endTime - startTime).toFixed(2);
-    console.log(`${funcName} took ${durationNum} ms`);
-  }
+): string => {
+  const duration = (endTime - startTime).toFixed(1);
+  return `${duration} ms`;
 };
 
 const getInputEl = (): HTMLInputElement => {
-  return document.querySelector(SEARCH_INPUT_SELECTOR);
-};
-
-const getCountEl = (): HTMLSpanElement => {
-  return document.querySelector(SEARCH_RESULTS_COUNT_SELECTOR);
-};
-
-const getResultsEl = (): HTMLDivElement => {
-  return document.querySelector(SEARCH_RESULTS_SELECTOR);
+  return document.querySelector('#search_input');
 };
 
 const setLoading = (loading: boolean): void => {
@@ -48,10 +31,6 @@ const setLoading = (loading: boolean): void => {
   } else {
     getInputEl().placeholder = 'Search by title';
   }
-};
-
-const setHitCount = (count: number): void => {
-  getCountEl().innerHTML = `<strong>${count}</strong>`;
 };
 
 const enableInputEl = (): void => {
@@ -64,20 +43,55 @@ const initFuse = (): void => {
     keys: ['title']
   };
   fuse = new Fuse(pages, options);
-  logPerformance('initFuse', startTime, performance.now());
+  setFusejsInstantiationTime(startTime, performance.now());
+};
+
+const setJsonIndexResourceSize = (bytes: string) => {
+  const tdEl = document.querySelector('#json_index_resource_size');
+  const kB = (Number(bytes) / 1000).toFixed(1);
+  tdEl.textContent = `${kB} kB`;
+};
+
+const setJsonIndexFetchTime = (startTime: number, endTime: number) => {
+  const tdEl = document.querySelector('#json_index_fetch_time');
+  tdEl.textContent = getDurationFormattedAsMs(startTime, endTime);
+};
+
+const setJsonIndexArrayLength = (length: number) => {
+  const tdEl = document.querySelector('#json_index_array_length');
+  tdEl.textContent = String(length);
+};
+
+const setFusejsInstantiationTime = (startTime: number, endTime: number) => {
+  const tdEl = document.querySelector('#fusejs_instantiation_time');
+  tdEl.textContent = getDurationFormattedAsMs(startTime, endTime);
+};
+
+const setSearchEventTime = (startTime: number, endTime: number) => {
+  const tdEl = document.querySelector('#search_event_time');
+  tdEl.textContent = getDurationFormattedAsMs(startTime, endTime);
+};
+
+const setHitCount = (length: number) => {
+  const tdEl = document.querySelector('#hit_count');
+  tdEl.textContent = String(length);
 };
 
 const fetchJsonIndex = (): void => {
   const startTime = performance.now();
   setLoading(true);
-  fetch(JSON_INDEX_URL)
-    .then(response => response.json())
+  fetch(`${window.location.origin}/index.json`)
+    .then(response => {
+      setJsonIndexResourceSize(response.headers.get('Content-Length'));
+      return response.json();
+    })
     .then(data => {
       pages = data;
       initFuse();
+      setJsonIndexFetchTime(startTime, performance.now());
+      setJsonIndexArrayLength(pages.length);
       enableInputEl();
       setLoading(false);
-      logPerformance('fetchJsonIndex', startTime, performance.now());
     })
     .catch(error => {
       console.error(`Failed to fetch JSON index: ${error.message}`);
@@ -93,7 +107,7 @@ const renderResultsHtml = (hits: Hit[]): void => {
     </p>`;
     })
     .join('\n');
-  getResultsEl().innerHTML = html;
+  document.querySelector('#search_results_container').innerHTML = html;
 };
 
 const getQuery = (): string => {
@@ -110,7 +124,7 @@ const handleSearchEvent = (): void => {
   const hits = getHits(query);
   setHitCount(hits.length);
   renderResultsHtml(hits);
-  logPerformance('handleSearchEvent', startTime, performance.now());
+  setSearchEventTime(startTime, performance.now());
 };
 
 const handleDOMContentLoaded = (): void => {
