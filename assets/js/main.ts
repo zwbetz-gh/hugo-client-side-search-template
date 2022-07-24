@@ -1,25 +1,9 @@
 import Fuse from './fuse.js';
-
-interface Page {
-  title: string;
-  url: string;
-}
-
-interface Hit {
-  item: Page;
-  refIndex: number;
-}
+import stats from './stats';
+import {Hit, Page} from './types.js';
 
 let pages: Page[];
 let fuse: any;
-
-const getDurationFormattedAsMs = (
-  startTime: number,
-  endTime: number
-): string => {
-  const duration = (endTime - startTime).toFixed(1);
-  return `${duration} ms`;
-};
 
 const getInputEl = (): HTMLInputElement => {
   return document.querySelector('#search_input');
@@ -43,38 +27,7 @@ const initFuse = (): void => {
     keys: ['title']
   };
   fuse = new Fuse(pages, options);
-  setFusejsInstantiationTime(startTime, performance.now());
-};
-
-const setJsonIndexResourceSize = (bytes: string) => {
-  const tdEl = document.querySelector('#json_index_resource_size');
-  const kB = (Number(bytes) / 1000).toFixed(1);
-  tdEl.textContent = `${kB} kB`;
-};
-
-const setJsonIndexFetchTime = (startTime: number, endTime: number) => {
-  const tdEl = document.querySelector('#json_index_fetch_time');
-  tdEl.textContent = getDurationFormattedAsMs(startTime, endTime);
-};
-
-const setJsonIndexArrayLength = (length: number) => {
-  const tdEl = document.querySelector('#json_index_array_length');
-  tdEl.textContent = String(length);
-};
-
-const setFusejsInstantiationTime = (startTime: number, endTime: number) => {
-  const tdEl = document.querySelector('#fusejs_instantiation_time');
-  tdEl.textContent = getDurationFormattedAsMs(startTime, endTime);
-};
-
-const setSearchEventTime = (startTime: number, endTime: number) => {
-  const tdEl = document.querySelector('#search_event_time');
-  tdEl.textContent = getDurationFormattedAsMs(startTime, endTime);
-};
-
-const setHitCount = (length: number) => {
-  const tdEl = document.querySelector('#hit_count');
-  tdEl.textContent = String(length);
+  stats.setFusejsInstantiationTime(startTime, performance.now());
 };
 
 const fetchJsonIndex = (): void => {
@@ -82,16 +35,16 @@ const fetchJsonIndex = (): void => {
   setLoading(true);
   fetch(`${window.location.origin}/index.json`)
     .then(response => {
-      setJsonIndexResourceSize(response.headers.get('Content-Length'));
+      stats.setJsonIndexResourceSize(response);
       return response.json();
     })
     .then(data => {
       pages = data;
       initFuse();
-      setJsonIndexFetchTime(startTime, performance.now());
-      setJsonIndexArrayLength(pages.length);
       enableInputEl();
       setLoading(false);
+      stats.setJsonIndexFetchTime(startTime, performance.now());
+      stats.setJsonIndexArrayLength(pages.length);
     })
     .catch(error => {
       console.error(`Failed to fetch JSON index: ${error.message}`);
@@ -122,9 +75,9 @@ const handleSearchEvent = (): void => {
   const startTime = performance.now();
   const query = getQuery();
   const hits = getHits(query);
-  setHitCount(hits.length);
   renderResultsHtml(hits);
-  setSearchEventTime(startTime, performance.now());
+  stats.setHitCount(hits.length);
+  stats.setSearchEventTime(startTime, performance.now());
 };
 
 const handleDOMContentLoaded = (): void => {
