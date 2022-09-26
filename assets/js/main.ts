@@ -17,7 +17,7 @@ const MAX_HITS_SHOWN = 10;
 /**
  * TEMPLATE_TODO: Optioal. Change the style of a highlighted match.
  */
-const LEFT_SIDE_MATCH_HTML = '<span style="background-color: #fff3cd">';
+const LEFT_SIDE_MATCH_HTML = '<span style="background-color: #fff3cd;">';
 const RIGHT_SIDE_MATCH_HTML = '</span>';
 
 /**
