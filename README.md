@@ -23,6 +23,7 @@ At a high-level:
 1. Fuse.js is instantiated with the JSON index
 1. You do a search which fires the keyup event
 1. Fuse.js is queried for hits
+1. Matched substrings are highlighted (with CSS that you craft)
 1. The DOM is updated with hits (with HTML that you craft)
 
 ## Relevant Files

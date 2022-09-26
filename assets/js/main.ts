@@ -15,10 +15,19 @@ const QUERY_URL_PARAM = 'query';
 const MAX_HITS_SHOWN = 10;
 
 /**
+ * TEMPLATE_TODO: Optioal. Change the style of a highlighted match.
+ */
+const LEFT_SIDE_MATCH_HTML = '<span style="background-color: #fff3cd">';
+const RIGHT_SIDE_MATCH_HTML = '</span>';
+
+/**
  * TEMPLATE_TODO: Required. Tell Fuse.js which keys to search on.
  */
 const FUSE_OPTIONS = {
-  keys: ['title', 'country', 'crew', 'vehicle', 'purpose']
+  keys: ['title', 'country', 'crew', 'vehicle', 'purpose'],
+  ignoreLocation: true,
+  includeMatches: true,
+  minMatchCharLength: 3
 };
 
 let fuse: any;
@@ -76,6 +85,36 @@ const fetchJsonIndex = (): void => {
     });
 };
 
+const highlightMatches = (hit: Hit, key: string) => {
+  const text = hit.item[key];
+  const match = hit.matches.find(match => match.key === key);
+
+  if (!match) {
+    return text;
+  }
+
+  let highlightedText = '';
+  const charIndexToReplacementText = new Map<number, string>();
+
+  match.indices.forEach(indexPair => {
+    const startIndex = indexPair[0];
+    const endIndex = indexPair[1];
+
+    const startCharText = `${LEFT_SIDE_MATCH_HTML}${text[startIndex]}`;
+    const endCharText = `${text[endIndex]}${RIGHT_SIDE_MATCH_HTML}`;
+
+    charIndexToReplacementText.set(startIndex, startCharText);
+    charIndexToReplacementText.set(endIndex, endCharText);
+  });
+
+  for (let i = 0; i < text.length; i++) {
+    const replacementText = charIndexToReplacementText.get(i) || text[i];
+    highlightedText += replacementText;
+  }
+
+  return highlightedText;
+};
+
 /**
  * TEMPLATE_TODO: Required. Change how your HTML is created.
  */
@@ -86,14 +125,14 @@ const createHitHtml = (hit: Hit): string => {
     })
     .map(key => {
       return `\
-    <strong>${key}:</strong> ${hit.item[key]}<br>
+    <strong>${key}:</strong> ${highlightMatches(hit, key)}<br>
     `;
     })
     .join('\n');
 
   return `\
   <p>
-    <strong>eva_number:</strong> <a href="${hit.item.url}">${hit.item.title}</a><br>
+    <strong>eva_number:</strong> <a href="${hit.item.url}">${highlightMatches(hit, 'title')}</a><br>
     ${details}
   </p>`;
 };
