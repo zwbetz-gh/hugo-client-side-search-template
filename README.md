@@ -4,9 +4,10 @@
 
 A lightweight, fuzzy, client-side search template for Hugo.
 
-## Demo
+## Links
 
-<https://hugo-client-side-search-template.netlify.app/>
+- Demo: <https://hugo-client-side-search-template.netlify.app/>
+- Forum: <https://discourse.gohugo.io/t/a-lightweight-fuzzy-client-side-search-template-for-hugo/39684>
 
 ## Dependencies
 
