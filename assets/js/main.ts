@@ -86,14 +86,13 @@ const fetchJsonIndex = (): void => {
 };
 
 const highlightMatches = (hit: Hit, key: string) => {
-  const text = hit.item[key];
+  const text: string = hit.item[key];
   const match = hit.matches.find(match => match.key === key);
 
   if (!match) {
     return text;
   }
 
-  let highlightedText = '';
   const charIndexToReplacementText = new Map<number, string>();
 
   match.indices.forEach(indexPair => {
@@ -107,12 +106,10 @@ const highlightMatches = (hit: Hit, key: string) => {
     charIndexToReplacementText.set(endIndex, endCharText);
   });
 
-  for (let i = 0; i < text.length; i++) {
-    const replacementText = charIndexToReplacementText.get(i) || text[i];
-    highlightedText += replacementText;
-  }
-
-  return highlightedText;
+  return text
+    .split('')
+    .map((char, index) => charIndexToReplacementText.get(index) || char)
+    .join('');
 };
 
 /**
@@ -132,7 +129,9 @@ const createHitHtml = (hit: Hit): string => {
 
   return `\
   <p>
-    <strong>eva_number:</strong> <a href="${hit.item.url}">${highlightMatches(hit, 'title')}</a><br>
+    <strong>eva_number:</strong> <a href="${hit.item.url}">
+    ${highlightMatches(hit, 'title')}
+    </a><br>
     ${details}
   </p>`;
 };
