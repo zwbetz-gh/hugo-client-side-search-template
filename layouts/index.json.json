@@ -14,4 +14,4 @@
   {{- $list = $list | append $item -}}
 {{- end -}}
 
-{{- $list | jsonify -}}
+{{ jsonify (dict "indent" " ") $list | safeJS }}
