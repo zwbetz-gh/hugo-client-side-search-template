@@ -61,10 +61,6 @@ Update the `Page` interface with the relevant keys from your hugo site.
 
 Look for occurrences of `TEMPLATE_TODO` then follow the directions.
 
-## Multilingual Support
-
-See this [snippet](https://github.com/zwbetz-gh/hugo-client-side-search-template/issues/13).
-
 ## Credit
 
 Sample EVA data provided by <https://catalog.data.gov/dataset/extra-vehicular-activity-eva-us-and-russia>.
