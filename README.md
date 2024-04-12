@@ -47,7 +47,7 @@ I chose to use the homepage as the search page, but you can use whatever page yo
 
 Just make sure the HTML elements in this partial are present.
 
-### assets/js/fuse.js
+### assets/js/fuse.mjs
 
 I chose to keep the minified Fuse.js library in the repo.
 
