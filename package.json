@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "lint": "prettier --write '**/*.{js,ts}'"
+    "format": "prettier --write '**/*.{js,ts}'"
   },
   "dependencies": {
     "lodash": "^4.17.21",
