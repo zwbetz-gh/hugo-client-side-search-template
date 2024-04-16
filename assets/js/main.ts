@@ -51,10 +51,17 @@ const doSearchIfUrlParamExists = (): void => {
   }
 };
 
+/**
+ * Copied from {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent#encoding_for_rfc3986}
+ */
+const encodeRFC3986URIComponent = (str: string): string => {
+  return encodeURIComponent(str).replace(/[!'()*]/g, c => `%${c.charCodeAt(0).toString(16).toUpperCase()}`);
+};
+
 const setUrlParam = (query: string): void => {
-  const urlParams = new URLSearchParams(window.location.search);
-  urlParams.set(QUERY_URL_PARAM, encodeURIComponent(query));
-  window.history.replaceState({}, '', `${location.pathname}?${urlParams}`);
+  const url = new URL(location.origin + location.pathname);
+  url.search = `${QUERY_URL_PARAM}=${encodeRFC3986URIComponent(query)}`;
+  window.history.replaceState({}, '', url);
 };
 
 const fetchJsonIndex = (): void => {
