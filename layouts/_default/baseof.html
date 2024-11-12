@@ -2,7 +2,7 @@
 {{ $mainCss := resources.Get "css/main.css" }}
 {{ $bundledCss := slice $bootstrapCss $mainCss | resources.Concat "css/bundled.css" }}
 
-{{ if not site.IsServer }}
+{{ if not hugo.IsServer }}
   {{ $bundledCss = $bundledCss | minify | fingerprint }}
 {{ end }}
 

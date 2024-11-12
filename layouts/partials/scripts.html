@@ -1,6 +1,6 @@
 {{ $bundledJs := resources.Get "js/main.ts" | js.Build "js/bundled.js" }}
 
-{{ if not site.IsServer }}
+{{ if not hugo.IsServer }}
   {{ $bundledJs = $bundledJs | minify | fingerprint }}
 {{ end }}
 
