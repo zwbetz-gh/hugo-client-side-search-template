@@ -64,3 +64,19 @@ Look for occurrences of `TEMPLATE_TODO` then follow the directions.
 ## Credit
 
 Sample EVA data provided by <https://catalog.data.gov/dataset/extra-vehicular-activity-eva-us-and-russia>.
+
+## Contributing
+
+1. Create a branch from `main`, or a fork of this repo
+1. Make your changes
+1. Run through the _Setup_ steps in this doc from scratch and confirm everything works
+1. Run the dump job
+
+        docker compose -f compose.yml -f compose.jobs.yml run dump
+
+1. Increment the [semantic version](https://docs.npmjs.com/about-semantic-versioning). `<semver>` should be one of: `major` | `minor` | `patch`
+
+        npm --no-git-tag-version version <semver>
+
+1. Update `CHANGELOG.md` with a new section
+1. PR your changes to be reviewed and merged

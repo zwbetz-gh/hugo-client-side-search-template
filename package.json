@@ -1,10 +1,11 @@
 {
+  "version": "1.0.0",
   "scripts": {
     "format": "prettier --write '**/*.{js,ts}'"
   },
   "dependencies": {
     "lodash": "^4.17.21",
-    "papaparse": "^5.3.2",
-    "prettier": "^2.7.1"
+    "papaparse": "^5.4.1",
+    "prettier": "^2.8.8"
   }
 }
