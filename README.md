@@ -29,25 +29,25 @@ At a high-level:
 
 ## Relevant Files
 
-### config.yaml
+### `config.yaml`
 
 The `outputs.home` config must be set to allow JSON.
 
-### layouts/index.json.json
+### `layouts/index.json.json`
 
 Iterate all regular pages. For each page, build a dict of relevant keys, then append the dict to a slice. jsonify the slice.
 
-### layouts/partials/scripts.html
+### `layouts/partials/scripts.html`
 
 Get the JS resource, build it, then bundle it. Put this right before your closing `</body>` tag.
 
-### layouts/partials/search.html
+### `layouts/partials/search.html`
 
 I chose to use the homepage as the search page, but you can use whatever page you want.
 
 Just make sure the HTML elements in this partial are present.
 
-### assets/js/fuse.mjs
+### `assets/js/fuse.mjs`
 
 I chose to keep the minified Fuse.js library in the repo.
 
@@ -55,11 +55,11 @@ You could also do it via `<script>` element, or `npm`. See the [Fuse.js installa
 
 Regardless of installation method, you **must** use the `fuse.mjs` file, note the `.mjs` ext. See [#19](https://github.com/zwbetz-gh/hugo-client-side-search-template/issues/19).
 
-### assets/js/types.ts
+### `assets/js/types.ts`
 
 Update the `Page` interface with the relevant keys from your hugo site.
 
-### assets/js/main.ts
+### `assets/js/main.ts`
 
 Look for occurrences of `TEMPLATE_TODO` then follow the directions.
 

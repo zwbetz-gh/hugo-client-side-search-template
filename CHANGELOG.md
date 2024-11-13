@@ -1,3 +1,7 @@
+## 1.1.2 (2024-11-13)
+
+- Format file headings as code
+
 ## 1.1.1 (2024-11-13)
 
 - Add Fuse.js ext wrinkle to docs
