@@ -53,6 +53,8 @@ I chose to keep the minified Fuse.js library in the repo.
 
 You could also do it via `<script>` element, or `npm`. See the [Fuse.js installation docs](https://fusejs.io/getting-started/installation.html).
 
+Regardless of installation method, you **must** use the `fuse.mjs` file, note the `.mjs` ext. See [#19](https://github.com/zwbetz-gh/hugo-client-side-search-template/issues/19).
+
 ### assets/js/types.ts
 
 Update the `Page` interface with the relevant keys from your hugo site.
@@ -69,10 +71,9 @@ Sample EVA data provided by <https://catalog.data.gov/dataset/extra-vehicular-ac
 
 1. Create a branch from `main`, or a fork of this repo
 1. Make your changes
-1. Run through the _Setup_ steps in this doc from scratch and confirm everything works
-1. Run the dump job
+1. Run the local dev server and confirm everything works
 
-        docker compose -f compose.yml -f compose.jobs.yml run dump
+        hugo serve
 
 1. Increment the [semantic version](https://docs.npmjs.com/about-semantic-versioning). `<semver>` should be one of: `major` | `minor` | `patch`
 

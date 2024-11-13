@@ -1,3 +1,8 @@
+## 1.1.1 (2024-11-13)
+
+- Add Fuse.js ext wrinkle to docs
+- Cleanup docs for contributing
+
 ## 1.1.0 (2024-11-12)
 
 - Upgrade hugo to 0.138.0
