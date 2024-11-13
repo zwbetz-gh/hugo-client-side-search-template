@@ -5,12 +5,12 @@ const JSON_INDEX_URL = `${window.location.origin}/index.json`;
 const QUERY_URL_PARAM = 'query';
 
 /**
- * TEMPLATE_TODO: Optioal. Change how many hits are shown.
+ * TEMPLATE_TODO: Optional. Change how many hits are shown.
  */
 const MAX_HITS_SHOWN = 10;
 
 /**
- * TEMPLATE_TODO: Optioal. Change the style of a highlighted match.
+ * TEMPLATE_TODO: Optional. Change the style of a highlighted match.
  */
 const LEFT_SIDE_MATCH_HTML = '<span style="background-color: #fff3cd;">';
 const RIGHT_SIDE_MATCH_HTML = '</span>';

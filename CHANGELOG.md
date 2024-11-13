@@ -1,3 +1,7 @@
+## 1.1.3 (2024-11-13)
+
+- Fix typos in `assets/js/main.ts`
+
 ## 1.1.2 (2024-11-13)
 
 - Format file headings as code
